@@ -46,8 +46,7 @@ class Solution:
         """Using in order predecssor so we invert the way the tree traverse
         instead of curr = curr.right do curr.left instead"""
         def getsuccessor(curr):
-            curr = curr.left
-            while curr is not None and curr.right is not None:
+            while curr.right is not None:
                 curr = curr.right
             return curr
 
@@ -73,7 +72,7 @@ class Solution:
                 #1 child 
                 return root.left
             
-            succ = getsuccessor(root)
+            succ = getsuccessor(root.left)
             #get successor
 
             root.data = succ.data
@@ -116,7 +115,7 @@ if __name__ == "__main__":
             if i == -1:
                 break
             result = Solution().removeBSTNode(root, i)
-            if result == 0:
+            if result is not None:
                 print("\nBST structure after removal:")
                 printTree(root)
                 print("\nIn-order traversal: ", end="")
