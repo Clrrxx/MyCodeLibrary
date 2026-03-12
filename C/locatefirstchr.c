@@ -23,3 +23,5 @@ int locateFirstChar(char *str, char ch){
     }
     return -1;
 }
+
+

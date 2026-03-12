@@ -17,3 +17,6 @@ int main(){
     }
     return 0;
 }
+/* inverted triangle: apply the pattern making for a regular ascending traingle but opposite
+then using same constrains for height print *
+*/

@@ -21,3 +21,8 @@ int main(){
     }
     return 0;
 }
+
+/* break down into 2 separate loops
+first one prints an inverted traingle with another triangle
+then the next triangle would be delayed by 1 step
+*/

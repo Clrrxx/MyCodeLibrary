@@ -1,31 +1,40 @@
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
-void palindrome(char *eword, char *PLword);
+#define INIT_VALUE -1000
+int palindrome(char *str);
 int main(){
-    char eword[80];
-    char PLword[80];
-    
-    printf("Enter your English word: \n");
-    fgets(eword, 80, stdin);
-    
 
-    palindrome(eword, PLword);
-
+    char str[80], *p;
+    int result = INIT_VALUE;
+        
+    printf("Enter a string: \n");
+    fgets(str, 80, stdin);
+    if (p=strchr(str,'\n')) *p = '\0';  
+    result = palindrome(str);
+    if (result == 1)
+        printf("palindrome(): A palindrome\n");
+    else if (result == 0)
+        printf("palindrome(): Not a palindrome\n");     
+    else  
+        printf("An error\n");       
+    
     return 0;
 }
 
 
-void palindrome(char *eword, char *PLword){
+int palindrome(char *str){
  /* Write your code here */
-    int len = strlen(eword);
+    char rev[80];
+    
+    int len = strlen(str);
     for (int i = 0; i<len; i++){
-        PLword[i] = eword[len-i-1];
+        rev[i] = str[len-i-1];
     }
-    toupper(PLword);
-    toupper(eword);
-
+    rev[len] = '\0';
     
-    
-    
+    if (strcmp(rev, str)){
+        return 0;
+    }else{
+        return 1;
+    }
 }
