@@ -1,5 +1,3 @@
-package MyCodeLibrary.Java;
-
 public class polygon {
     public enum KindofPolygon{ POLY_PLAIN, POLY_RECT, POLY_TRI};
     protected String name;
