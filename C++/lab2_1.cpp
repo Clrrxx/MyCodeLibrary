@@ -19,7 +19,9 @@ public:
     }
 
     //Overloading with friend function
-    friend std::ostream& operator<<(std::ostream& out, const Complex& c){
+    friend std::ostream& operator<<(std::ostream& out, const Complex& c);
+};
+    std::ostream& operator<<(std::ostream& out, const Complex& c){
         if (c.imag <= 0){
             out<<c.real << " - " << -c.imag<<"i";
         }else{
@@ -27,7 +29,6 @@ public:
         }
         return out;
     }
-};
 
 int main(){
     double d1, d2;
