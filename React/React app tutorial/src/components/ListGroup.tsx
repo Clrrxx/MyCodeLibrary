@@ -21,4 +21,6 @@ function ListGroup() {
 //using items.map -> jsx way of using a for loop but react will throw us an error
 //so we wrap them in {} 
 
+//react will throw an error on the website about each child requiring 
+
 export default ListGroup;
