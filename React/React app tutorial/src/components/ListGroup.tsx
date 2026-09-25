@@ -2,11 +2,13 @@
 //can import fragment from react or also just use empty <>
 
 function ListGroup() {
-  const items = ["New York", "London", "Tokyo", "San Francisco"];
+  let items = ["New York", "London", "Tokyo", "San Francisco"];
+  items = [];
 
   return (
     <>
       <h1>List</h1>
+      {items.length === 0 ? <p>No items Found</p>:null}
       <ul className="list-group">
         {items.map((items) => (
           <li key={items}>{items}</li>
@@ -15,12 +17,15 @@ function ListGroup() {
     </>
   );
 }
+
+export default ListGroup;
+
 //ctrl D after you select one item to select multiple of that element
 //in react component cannot return more than one element
 
 //using items.map -> jsx way of using a for loop but react will throw us an error
-//so we wrap them in {} 
+//as in the return statement can only use html or react components so we wrap them in {}
 
-//react will throw an error on the website about each child requiring 
-
-export default ListGroup;
+//react will throw an error on the website about each child requiring a key
+//this is because later on react needs to know which specific part of the website
+//needs to be updated
