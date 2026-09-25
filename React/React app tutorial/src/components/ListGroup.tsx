@@ -8,10 +8,10 @@ interface Props {
   items: string[];
   heading: string;
   //(item: string) => void
-  onSelectItem: (item:string) => void;
+  onSelectItem: (item: string) => void;
 }
 
-function ListGroup({ items, heading , onSelectItem}: Props) {
+function ListGroup({ items, heading, onSelectItem }: Props) {
   //Hook => tell react that the variable will change states
   const [selectedIndex, setSelectedIndex] = useState(-1);
 
