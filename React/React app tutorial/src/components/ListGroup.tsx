@@ -1,13 +1,19 @@
 //fragment is better than div
 //can import fragment from react or also just use empty <>
-import { MouseEvent } from "react";
+
+import { useState } from "react";
+
+
 
 function ListGroup() {
   let items = ["New York", "London", "Tokyo", "San Francisco"];
-
-  //event handling logic
-  const handleClick = (event: MouseEvent) => console.log(event);
-  //type annotation -> we can specify the parameters and variables
+  
+  //Hook => tell react that the variable will change states
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+    
+  //arr[0]  //var (selected index)
+  //arr[1]  //updater function
+  
 
   return (
     <>
@@ -15,7 +21,16 @@ function ListGroup() {
       {items.length === 0 && <p>No items Found</p>}
       <ul className="list-group">
         {items.map((items, index) => (
-          <li className="list-group-item" key={items} onClick={handleClick}>
+          <li
+          //for item in list group, we are going to highlight the element that is clicked
+            className={
+              selectedIndex === index
+                ? "list-group-item active"
+                : "list-group-item"
+            }
+            key={items}
+            onClick={()=> {setSelectedIndex(index);}}
+          >
             {items}
           </li>
         ))}
