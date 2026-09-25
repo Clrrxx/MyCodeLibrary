@@ -1,17 +1,23 @@
 //fragment is better than div
 //can import fragment from react or also just use empty <>
+import { MouseEvent } from "react";
 
 function ListGroup() {
   let items = ["New York", "London", "Tokyo", "San Francisco"];
-  items = [];
+
+  //event handling logic
+  const handleClick = (event: MouseEvent) => console.log(event);
+  //type annotation -> we can specify the parameters and variables
 
   return (
     <>
       <h1>List</h1>
-      {items.length === 0 ? <p>No items Found</p>:null}
+      {items.length === 0 && <p>No items Found</p>}
       <ul className="list-group">
-        {items.map((items) => (
-          <li key={items}>{items}</li>
+        {items.map((items, index) => (
+          <li className="list-group-item" key={items} onClick={handleClick}>
+            {items}
+          </li>
         ))}
       </ul>
     </>
@@ -29,3 +35,6 @@ export default ListGroup;
 //react will throw an error on the website about each child requiring a key
 //this is because later on react needs to know which specific part of the website
 //needs to be updated
+
+//true and "expression" = expression
+//false and "expression" = false
