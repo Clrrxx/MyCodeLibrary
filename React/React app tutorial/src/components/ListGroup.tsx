@@ -4,20 +4,19 @@
 import { useState } from "react";
 
 // {items: [], heading: string} -> use interface like class
-interface Props{
+interface Props {
   items: string[];
   heading: string;
+  //(item: string) => void
+  onSelectItem: (item:string) => void;
 }
 
-function ListGroup({items, heading}: Props) {
-  
-  
+function ListGroup({ items, heading , onSelectItem}: Props) {
   //Hook => tell react that the variable will change states
   const [selectedIndex, setSelectedIndex] = useState(-1);
-    
+
   //arr[0]  //var (selected index)
   //arr[1]  //updater function
-  
 
   return (
     <>
@@ -26,14 +25,17 @@ function ListGroup({items, heading}: Props) {
       <ul className="list-group">
         {items.map((items, index) => (
           <li
-          //for item in list group, we are going to highlight the element that is clicked
+            //for item in list group, we are going to highlight the element that is clicked
             className={
               selectedIndex === index
                 ? "list-group-item active"
                 : "list-group-item"
             }
             key={items}
-            onClick={()=> {setSelectedIndex(index);}}
+            onClick={() => {
+              setSelectedIndex(index);
+              onSelectItem(items);
+            }}
           >
             {items}
           </li>
