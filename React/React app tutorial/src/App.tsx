@@ -1,6 +1,6 @@
 import Message from "./Message";
 
-function App(){
+function App(){  
   return <div><Message /></div>
 }
 
