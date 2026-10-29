@@ -1,13 +1,17 @@
-# SC2203 Weeks 8 to 11 Flashcards
+# SC2203 Weeks 8 to 11 Flashcards (Separated by Week)
 
-Cards are grouped by priority. **Major** cards are the likeliest quiz material, **minor** cards support them, and **tertiary** cards are details that tend to appear as distractors. Cover the answer, say it aloud or write it by hand (the quiz is closed book and handwritten), then check yourself.
+Cards are grouped by lecture week, and within each week by priority. **Major** cards are the likeliest quiz material, **minor** cards support them, **tertiary** cards are details that tend to appear as distractors, and **trap** cards target common wrong beliefs. Cover the answer, say it aloud or write it by hand (the quiz is closed book and handwritten), then check yourself.
+
+Contents: [Week 8](#week-8-measuring-complexity-and-asymptotics) | [Week 9](#week-9-the-class-p-and-nondeterminism) | [Week 10](#week-10-np-verifiers-and-reductions) | [Week 11](#week-11-sat-np-completeness-and-cook-levin)
 
 ---
 
-## Major Concepts
+# Week 8: Measuring Complexity and Asymptotics
 
-**Q: What does it mean that complexity is measured against input length, and why does it matter for numbers?**
-A: Time is a function of the length n of the input string. A number N in binary has length ⌈log₂(N+1)⌉, so N is about 2ⁿ. An algorithm taking O(N) steps is therefore exponential in the input length.
+## Major
+
+**Q: What does it mean that complexity is measured against input length?**
+A: Time is a function of the length n of the input string, measured in the worst case over all inputs of that length.
 
 **Q: Define DTIME(T(n)).**
 A: The set of languages decidable by a deterministic TM that is O(T(n)) time-bounded, measured in the worst case over inputs of length n.
@@ -36,11 +40,56 @@ A: All except Θ(n³). It is Θ(n²), hence also O(n³) and Ω(n).
 **Q: Order these growth rates: 2ⁿ, n log n, n², log n, n, nᵏ, 1.**
 A: 1 ≺ log n ≺ n ≺ n log n ≺ n² ≺ nᵏ ≺ 2ⁿ.
 
+## Minor
+
+**Q: Why does complexity theory exist given the Church-Turing thesis?**
+A: Computable does not mean feasible. Complexity theory measures time and space to separate efficient from inefficient computation, unifies problems by reductions, and leads to P vs. NP.
+
+**Q: How does a decision problem relate to a language, and an algorithm to a TM?**
+A: Instances are encoded as strings and the YES instances form the language. A TM accepting the language is an algorithm solving the problem.
+
+**Q: Which model of computation is used in this complexity part, and what is measured?**
+A: A deterministic k-tape TM, measuring time (steps) in the worst case over inputs of length n. Space is not covered.
+
+**Q: When is a TM T(n) time-bounded?**
+A: When for every input w of length n, M(w) halts within T(n) steps.
+
+**Q: What is the polynomial-time criterion in Big-O terms?**
+A: An algorithm is polynomial-time if its running time is O(nᵈ) for some constant d. A degree-d polynomial is Θ(nᵈ), determined by its highest-degree term.
+
+## Tertiary
+
+**Q: Difference between algorithm analysis and problem complexity?**
+A: Algorithm analysis bounds a specific algorithm (quicksort O(n log n) average). Problem complexity asks about the best possible algorithm (comparison sorting needs Ω(n log n)). Upper bounds come from algorithms, lower bounds from impossibility.
+
+**Q: Example showing n⁶ = O(1.1ⁿ)?**
+A: n⁶ < 1.1ⁿ for n ≥ 373, so exponentials eventually dominate any polynomial.
+
+**Q: Why are logarithm bases irrelevant in Big-O?**
+A: log_a n = log_a b · log_b n, so they differ by a constant factor.
+
+**Q: What is the Big-O witness for 1000n + 100 = O(n)?**
+A: c = 1001 and n₀ = 100, since 1000n + 100 ≤ 1001n for n ≥ 100.
+
+## Trap
+
+**Q: True or false: the Time Hierarchy Theorem says DTIME(n) = DTIME(2n).**
+A: False. DTIME(n) = DTIME(2n) holds by linear speedup (constants do not matter), while the hierarchy theorem gives strictness for genuinely larger bounds, such as DTIME(n) ⊊ DTIME(n²).
+
+---
+
+# Week 9: The Class P and Nondeterminism
+
+## Major
+
 **Q: Define P.**
 A: P = ⋃ₖ DTIME(nᵏ), the languages decidable in deterministic polynomial time.
 
 **Q: Why is polynomial time the standard notion of "efficient"?**
 A: Polynomial growth is realistic compared with exponential growth, it is independent of the reasonable computational model, it is closed under composition (poly of poly is poly), and most practical algorithms are polynomial. The caveat is that a polynomial like n¹⁰⁰ is not practical.
+
+**Q: Why does input length matter for numbers (bits versus value)?**
+A: A number N in binary has length ⌈log₂(N+1)⌉, so N is about 2ⁿ. An algorithm taking O(N) steps is therefore exponential in the input length.
 
 **Q: Why is the naive MODEXP algorithm not polynomial?**
 A: It performs O(b) multiplications mod p, and b can be about p, which is exponential in the input length O(log p).
@@ -59,6 +108,60 @@ A: NP = ⋃ₖ NTIME(nᵏ), the languages accepted by nondeterministic polynomia
 
 **Q: How long does a DTM take to simulate an NTM running in time T(n)?**
 A: 2^O(T(n)), because the simulation explores the computation tree of exponentially many paths.
+
+## Minor
+
+**Q: Why is P robust across models?**
+A: Single versus multi-tape TMs differ by at most a quadratic factor, TM and RAM simulate each other in polynomial time, and programming languages differ by polynomial overhead.
+
+**Q: Name the closure properties of P.**
+A: Union, concatenation, Kleene star, and complement.
+
+**Q: How do you show P is closed under complement and union?**
+A: Complement: run the decider and flip its answer. Union: run A₁, accept if it accepts, otherwise run A₂, with time O(p₁(n) + p₂(n)).
+
+**Q: What is the recipe for showing L ∈ P?**
+A: Give a polynomial-time algorithm, analyze its running time, and check the bound is polynomial in the input size.
+
+**Q: What asymmetry motivates NP?**
+A: Finding a solution seems hard while verifying a given solution is easy (factoring, Sudoku).
+
+**Q: Is the NTM a physically realizable machine?**
+A: No. It is a theoretical model with no known physical implementation.
+
+**Q: Define NTIME(T(n)) and an NTM being T(n) time-bounded.**
+A: An NTM is T(n) time-bounded if for every input of length n and every sequence of choices it halts within T(n) steps. NTIME(T(n)) is the set of languages accepted by an O(T(n)) time-bounded NTM.
+
+**Q: How does a DTM simulate an NTM, in outline?**
+A: It views the computation as a tree of configurations and explores all paths breadth-first, accepting if any path reaches acceptance.
+
+## Tertiary
+
+**Q: What is the length of 15 in binary and what does it show?**
+A: 1111, which is 4 = ⌈log₂ 16⌉ bits. Input length is logarithmic in the value.
+
+**Q: Why is factoring not known to be in P, and what relies on it?**
+A: Best known algorithms are sub-exponential but super-polynomial. RSA cryptography relies on its hardness.
+
+**Q: Linear programming: simplex versus ellipsoid?**
+A: The simplex method is exponential in the worst case but fast in practice. The ellipsoid and interior-point methods show linear programming is in P.
+
+**Q: What is the worked squaring chain for x²⁵?**
+A: x²⁵ = x·(x¹²)², x¹² = (x⁶)², x⁶ = (x³)², x³ = x·(x¹)².
+
+## Trap
+
+**Q: True or false: an algorithm that runs in O(N) for numeric value N is polynomial.**
+A: False. Polynomial is measured in the bit length n ≈ log N, so O(N) is exponential in n.
+
+**Q: True or false: an NTM can recognize more languages than a DTM, so it is a physical speedup.**
+A: False on both counts in this setting. A DTM can simulate any NTM (at exponential cost), and the NTM is a theoretical model only.
+
+---
+
+# Week 10: NP, Verifiers, and Reductions
+
+## Major
 
 **Q: Define a verifier and the conditions it must meet.**
 A: A verifier for L is a deterministic algorithm V(w, c). If w ∈ L, some certificate c with |c| ≤ poly(|w|) makes V accept. If w ∉ L, every certificate with |c| ≤ poly(|w|) makes V reject.
@@ -108,6 +211,60 @@ A: What is the transformation? Why is it correct (w ∈ A ⇔ f(w) ∈ B, both d
 **Q: Describe the reduction Independent Set ≤ᴾ Clique and why it is correct.**
 A: Map ⟨G, k⟩ to ⟨Ḡ, k⟩ where Ḡ is the complement graph (edge uv iff uv is not an edge of G). A set S is independent in G if and only if S is a clique in Ḡ.
 
+## Minor
+
+**Q: Why is COMPOSITE in NP via a nondeterministic algorithm?**
+A: Guess k with 1 < k < n and check divisibility in polynomial time. A composite n has some accepting guess; a prime n has none.
+
+**Q: What does the guess-and-verify paradigm say?**
+A: Nondeterminism guesses a certificate, and a deterministic polynomial-time check validates it.
+
+**Q: Define an independent set and a clique.**
+A: An independent set is a vertex set with no edge between any two of its vertices. A clique is a vertex set in which every pair is joined by an edge.
+
+**Q: Define EXP and what is known about it relative to P.**
+A: EXP is the class of decision problems solvable in deterministic exponential time. P ≠ EXP by the time hierarchy theorem.
+
+**Q: What does Independent Set ≤ᴾ Clique mean practically?**
+A: A polynomial-time algorithm for Clique would give one for Independent Set, so Clique is at least as hard. The same argument gives Clique ≤ᴾ Independent Set.
+
+**Q: What are the Karp reduction naming conventions?**
+A: A polynomial-time many-one reduction of decision problems, the standard kind used in this course.
+
+## Tertiary
+
+**Q: What is the difference between an algorithm and its complexity?**
+A: An algorithm is how you solve the problem; complexity is how expensive that solution is.
+
+**Q: What prize is attached to P vs. NP and who awards it?**
+A: A US$1 million prize from the Clay Mathematics Institute, one of seven Millennium Prize Problems selected in 2000.
+
+**Q: Name some problem families listed as being in NP.**
+A: Graph problems (Independent Set, Clique, Vertex Cover, Hamiltonian Path), logic (SAT, 3-SAT), number theory (factorization, discrete log), optimization (Knapsack, Bin Packing, Job Scheduling), games (Sudoku, Minesweeper, Tetris).
+
+**Q: What is the common pattern among classical NP problems?**
+A: Easy to verify solutions, hard to find them.
+
+**Q: What does the slide say most researchers believe about P vs. NP?**
+A: Most believe P ≠ NP, but there is no proof.
+
+## Trap
+
+**Q: True or false: if X ≤ᴾ Y then Y ≤ᴾ X.**
+A: False. Direction matters.
+
+**Q: True or false: NP means "not polynomial".**
+A: False. NP is **nondeterministic** polynomial time, and P ⊆ NP.
+
+**Q: True or false: to show a verifier works for a NO instance, one bad certificate must be rejected.**
+A: False. For w ∉ L, **every** polynomial-size certificate must be rejected.
+
+---
+
+# Week 11: SAT, NP-Completeness, and Cook-Levin
+
+## Major
+
 **Q: Define literal, clause, CNF, and 3CNF.**
 A: A literal is a variable or its negation. A clause is a disjunction of literals. CNF is a conjunction of clauses. 3CNF requires every clause to have exactly 3 distinct literals.
 
@@ -156,51 +313,10 @@ A: The tableau is p(|x|) × p(|x|), and the formula has O(p(|x|)²) variables an
 **Q: Why is 3SAT NP-complete?**
 A: 3SAT ∈ NP (the assignment is a certificate), SAT is NP-complete by Cook-Levin, and SAT ≤ᴾ 3SAT.
 
----
-
-## Minor Concepts
-
-**Q: Why does complexity theory exist given the Church-Turing thesis?**
-A: Computable does not mean feasible. Complexity theory measures time and space to separate efficient from inefficient computation, unifies problems by reductions, and leads to P vs. NP.
-
-**Q: How does a decision problem relate to a language and an algorithm to a TM?**
-A: Instances are encoded as strings and the YES instances form the language. A TM accepting the language is an algorithm solving the problem.
-
-**Q: Which model of computation is used in this complexity part, and what is measured?**
-A: A deterministic k-tape TM, measuring time (steps) in the worst case over inputs of length n. Space is not covered.
-
-**Q: Why is P robust across models?**
-A: Single versus multi-tape TMs differ by at most a quadratic factor, TM and RAM simulate each other in polynomial time, and programming languages differ by polynomial overhead.
-
-**Q: Name the closure properties of P.**
-A: Union, concatenation, Kleene star, and complement.
-
-**Q: How do you show P is closed under complement and union?**
-A: Complement: run the decider and flip its answer. Union: run A₁, accept if it accepts, otherwise run A₂, with time O(p₁(n) + p₂(n)).
-
-**Q: What is the recipe for showing L ∈ P?**
-A: Give a polynomial-time algorithm, analyze its running time, and check the bound is polynomial in the input size.
-
-**Q: What asymmetry motivates NP?**
-A: Finding a solution seems hard while verifying a given solution is easy (factoring, Sudoku).
-
-**Q: Is the NTM a physically realizable machine?**
-A: No. It is a theoretical model with no known physical implementation.
-
-**Q: Define NTIME(T(n)) and an NTM being T(n) time-bounded.**
-A: An NTM is T(n) time-bounded if for every input of length n and every sequence of choices it halts within T(n) steps. NTIME(T(n)) is the set of languages accepted by an O(T(n)) time-bounded NTM.
-
-**Q: What does the guess-and-verify paradigm say?**
-A: Nondeterminism guesses a certificate, and a deterministic polynomial-time check validates it.
-
-**Q: Why is COMPOSITE in NP via a nondeterministic algorithm?**
-A: Guess k with 1 < k < n and check divisibility in polynomial time. A composite n has some accepting guess; a prime n has none.
+## Minor
 
 **Q: Why is the SAT satisfying assignment a certificate in the NP sense?**
 A: It has linear size in the formula, and checking that every clause has a true literal takes polynomial time.
-
-**Q: What is the Karp reduction naming convention?**
-A: A polynomial-time many-one reduction of decision problems, the standard kind used in this course.
 
 **Q: Why does 3SAT ≤ᴾ Independent Set matter for the web of NP-complete problems?**
 A: It feeds the chain 3SAT ≤ᴾ Independent Set, then Independent Set ≤ᴾ Clique and Independent Set ≤ᴾ Vertex Cover, showing hardness spreads along reductions.
@@ -223,36 +339,10 @@ A: φ₅, acceptance: ⋁ᵢ S(q_a, i), because the machine only needs to reach 
 **Q: What are the forward and backward directions of Cook-Levin correctness?**
 A: Forward: an accepting computation gives a satisfying assignment by filling in the tableau. Backward: a satisfying assignment encodes a valid accepting computation, so M accepts x.
 
----
+**Q: Why is SAT important?**
+A: It is a basic constraint satisfaction problem, logical constraints are simple but expressive so many problems reduce to it, it arises in hardware and software verification, and it is fundamental to the theory of computing.
 
-## Tertiary Details
-
-**Q: What are the three tiers of description for algorithms versus complexity?**
-A: An algorithm is how you solve the problem; complexity is how expensive that solution is.
-
-**Q: Difference between algorithm analysis and problem complexity?**
-A: Algorithm analysis bounds a specific algorithm (quicksort O(n log n) average). Problem complexity asks about the best possible algorithm (comparison sorting needs Ω(n log n)). Upper bounds come from algorithms, lower bounds from impossibility.
-
-**Q: Example showing n⁶ = O(1.1ⁿ)?**
-A: n⁶ < 1.1ⁿ for n ≥ 373, so exponentials eventually dominate any polynomial.
-
-**Q: Why are logarithm bases irrelevant in Big-O?**
-A: log_a n = log_a b · log_b n, so they differ by a constant factor.
-
-**Q: What is the length of 15 in binary and what does it show?**
-A: 1111, which is 4 = ⌈log₂ 16⌉ bits. Input length is logarithmic in the value.
-
-**Q: Why is factoring not known to be in P, and what relies on it?**
-A: Best known algorithms are sub-exponential but super-polynomial. RSA cryptography relies on its hardness.
-
-**Q: Linear programming: simplex versus ellipsoid?**
-A: The simplex method is exponential in the worst case but fast in practice. The ellipsoid and interior-point methods show linear programming is in P.
-
-**Q: What prize is attached to P vs. NP and who awards it?**
-A: A US$1 million prize from the Clay Mathematics Institute, one of seven Millennium Prize Problems selected in 2000.
-
-**Q: Name some problem families listed as being in NP.**
-A: Graph problems (Independent Set, Clique, Vertex Cover, Hamiltonian Path), logic (SAT, 3-SAT), number theory (factorization, discrete log), optimization (Knapsack, Bin Packing, Job Scheduling), games (Sudoku, Minesweeper, Tetris).
+## Tertiary
 
 **Q: Who proved what, and when, for the first NP-complete problem?**
 A: Cook (1971) and Levin (1973) proved SAT is NP-complete. Cook won the Turing Award for it.
@@ -263,21 +353,13 @@ A: 3SAT ≤ᴾ Independent Set, Independent Set ≤ᴾ Clique, Independent Set �
 **Q: What is the benefit of believing P ≠ NP for an NP-complete X?**
 A: X is unlikely to be efficiently solvable, and many smart people have failed to find an efficient algorithm for it.
 
----
+**Q: What is the 4-literal clause example?**
+A: (ℓ₁ ∨ ℓ₂ ∨ ℓ₃ ∨ ℓ₄) becomes (ℓ₁ ∨ ℓ₂ ∨ u) ∧ (ℓ₃ ∨ ℓ₄ ∨ ¬u).
 
-## Trap Cards (Common Wrong Beliefs)
-
-**Q: True or false: if X ≤ᴾ Y then Y ≤ᴾ X.**
-A: False. Direction matters.
+## Trap
 
 **Q: True or false: an NP-hard problem must be in NP.**
 A: False. NP-hardness has no membership requirement.
-
-**Q: True or false: NP means "not polynomial".**
-A: False. NP is **nondeterministic** polynomial time, and P ⊆ NP.
-
-**Q: True or false: an algorithm that runs in O(N) for numeric value N is polynomial.**
-A: False. Polynomial is measured in the bit length n ≈ log N, so O(N) is exponential in n.
 
 **Q: True or false: to prove X NP-hard, reduce X to a known NP-hard problem.**
 A: False. Reduce **from** a known NP-hard problem **to** X.
@@ -287,6 +369,3 @@ A: False. To show unsatisfiability, every assignment must fail, and an assignmen
 
 **Q: True or false: 3SAT clauses may have fewer than 3 literals.**
 A: False. A 3CNF clause has exactly 3 distinct literals.
-
-**Q: True or false: the Time Hierarchy Theorem says DTIME(n) = DTIME(2n).**
-A: False for the hierarchy theorem, but true by linear speedup. DTIME(n) = DTIME(2n) because constants do not matter, while DTIME(n) ⊊ DTIME(n²) by the hierarchy theorem.
